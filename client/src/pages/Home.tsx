@@ -61,7 +61,7 @@ const Home = () => {
               <span>LinkedIn</span>
             </a>
             <a
-              href="https://github.com/tanishpoddar"
+              href="https://github.com/tanisheesh"
               target="_blank"
               rel="noreferrer"
               className="flex items-center text-terminal-accent hover:text-terminal-green transition-colors"

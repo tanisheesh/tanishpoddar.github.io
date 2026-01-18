@@ -120,7 +120,7 @@ const ContactSection = forwardRef<HTMLElement, ContactSectionProps>((props, ref)
                   </div>
                   <div>
                     <p className="text-sm text-gray-400">GitHub</p>
-                    <a href="https://github.com/tanishpoddar" target="_blank" rel="noreferrer" className="text-terminal-accent hover:text-terminal-green transition-colors">
+                    <a href="https://github.com/tanisheesh" target="_blank" rel="noreferrer" className="text-terminal-accent hover:text-terminal-green transition-colors">
                       github.com/tanishpoddar
                     </a>
                   </div>
