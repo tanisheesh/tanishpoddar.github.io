@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "./providers";
+import CustomCursor from "@/components/CustomCursor";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const siteUrl = "https://tanishpoddar.com";
@@ -167,7 +169,10 @@ export default function RootLayout({
       </head>
       <body className="font-mono">
         <Providers>
-          {children}
+          <CustomCursor />
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
           <Toaster />
         </Providers>
         <Analytics />

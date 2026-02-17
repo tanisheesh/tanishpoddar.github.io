@@ -53,3 +53,115 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #00ff00;
 }
+
+/* Custom cursor styles */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor-crosshair {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* Center dot */
+.cursor-center {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #44DAFF;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px #44DAFF;
+  transition: all 0.2s ease;
+}
+
+/* Crosshair lines */
+.cursor-line {
+  position: absolute;
+  background-color: #44DAFF;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.cursor-line-h {
+  width: 20px;
+  height: 1px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-line-v {
+  width: 1px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hide crosshair when hovering over clickable elements */
+.custom-cursor-crosshair.active .cursor-center,
+.custom-cursor-crosshair.active .cursor-line {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+/* Element bounding box with brackets */
+.cursor-element-bounds {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Corner brackets for hover state */
+.cursor-bracket {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ABE9B3;
+}
+
+.cursor-bracket-tl {
+  top: -4px;
+  left: -4px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.cursor-bracket-tr {
+  top: -4px;
+  right: -4px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.cursor-bracket-bl {
+  bottom: -4px;
+  left: -4px;
+  border-right: none;
+  border-top: none;
+}
+
+.cursor-bracket-br {
+  bottom: -4px;
+  right: -4px;
+  border-left: none;
+  border-top: none;
+}
+
+@media (max-width: 768px) {
+  * {
+    cursor: auto !important;
+  }
+  
+  .custom-cursor-crosshair,
+  .cursor-element-bounds {
+    display: none;
+  }
+}

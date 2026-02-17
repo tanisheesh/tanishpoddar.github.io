@@ -55,7 +55,7 @@ const AboutSection = forwardRef<HTMLElement, AboutSectionProps>((props, ref) => 
               transition={{ delay: 0.2 }}
             >
               <motion.p 
-                className="leading-relaxed mb-4"
+                className="leading-relaxed mb-4 text-justify"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -64,16 +64,16 @@ const AboutSection = forwardRef<HTMLElement, AboutSectionProps>((props, ref) => 
                 Full Stack Software Engineer with experience building production-grade backend systems, real-time applications, and AI-powered platforms.
               </motion.p>
               <motion.p 
-                className="leading-relaxed mb-4"
+                className="leading-relaxed mb-4 text-justify"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.35 }}
               >
-                I focus on clean API design, scalable architectures, and shipping features end-to-end under real constraints. My work spans backend-heavy development, frontend integration, data systems, and applied AI use cases.
+                I focus on clean API design, scalable architectures, and shipping features end-to-end under real constraints. My work spans to backend-heavy development, secure frontend integration, data systems & applied AI use cases.
               </motion.p>
               <motion.p 
-                className="leading-relaxed"
+                className="leading-relaxed text-justify"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

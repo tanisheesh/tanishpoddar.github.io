@@ -27,6 +27,31 @@ export default function Home() {
     contact: useRef<HTMLElement>(null),
   };
 
+  // Custom smooth scroll function
+  const smoothScrollToTop = () => {
+    const duration = 1000; // 1 second
+    const start = window.pageYOffset;
+    const startTime = performance.now();
+
+    const scroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function (ease-in-out)
+      const easeInOutCubic = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      
+      window.scrollTo(0, start * (1 - easeInOutCubic));
+      
+      if (progress < 1) {
+        requestAnimationFrame(scroll);
+      }
+    };
+
+    requestAnimationFrame(scroll);
+  };
+
   return (
     <div className="bg-terminal-bg text-terminal-text font-mono">
       {/* Home Section */}
@@ -44,7 +69,7 @@ export default function Home() {
               <TypingAnimation 
                 texts={[
                   "Full Stack Software Engineer",
-                  "Backend & Real-Time Systems",
+                  "Backend & Real-Time Systems Developer",
                   "Applied AI Developer"
                 ]}
                 typingSpeed={70}
@@ -120,12 +145,7 @@ export default function Home() {
 
       {/* Go Up Button - Triangle Shape */}
       <button
-        onClick={() => {
-          window.scrollTo({ 
-            top: 0, 
-            behavior: 'smooth' 
-          });
-        }}
+        onClick={smoothScrollToTop}
         className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-40 w-0 h-0 border-l-[12px] border-r-[12px] border-b-[20px] border-l-transparent border-r-transparent border-b-terminal-accent hover:border-b-terminal-green transition-colors cursor-pointer"
         aria-label="Scroll to top"
       />
