@@ -1,18 +1,57 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, createContext, useContext } from "react";
+
+interface SmoothScrollContextType {
+  scrollTo: (position: number) => void;
+}
+
+const SmoothScrollContext = createContext<SmoothScrollContextType | null>(null);
+
+export const useSmoothScroll = () => {
+  const context = useContext(SmoothScrollContext);
+  if (!context) {
+    throw new Error("useSmoothScroll must be used within SmoothScroll");
+  }
+  return context;
+};
 
 const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>();
   const targetScrollY = useRef(0);
   const currentScrollY = useRef(0);
+  const isAnimating = useRef(false);
+
+  const scrollTo = (position: number) => {
+    targetScrollY.current = position;
+    if (!isAnimating.current) {
+      isAnimating.current = true;
+      animate();
+    }
+  };
+
+  const animate = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const speed = 0.08;
+    const diff = targetScrollY.current - currentScrollY.current;
+    
+    if (Math.abs(diff) > 0.5) {
+      currentScrollY.current += diff * speed;
+      container.scrollTop = currentScrollY.current;
+      requestRef.current = requestAnimationFrame(animate);
+    } else {
+      currentScrollY.current = targetScrollY.current;
+      container.scrollTop = currentScrollY.current;
+      isAnimating.current = false;
+    }
+  };
 
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
-
-    let isScrolling = false;
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -22,24 +61,9 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
       const maxScroll = container.scrollHeight - container.clientHeight;
       targetScrollY.current = Math.max(0, Math.min(targetScrollY.current, maxScroll));
       
-      if (!isScrolling) {
-        isScrolling = true;
+      if (!isAnimating.current) {
+        isAnimating.current = true;
         animate();
-      }
-    };
-
-    const animate = () => {
-      const speed = 0.08; // Lower = smoother but slower
-      const diff = targetScrollY.current - currentScrollY.current;
-      
-      if (Math.abs(diff) > 0.5) {
-        currentScrollY.current += diff * speed;
-        container.scrollTop = currentScrollY.current;
-        requestRef.current = requestAnimationFrame(animate);
-      } else {
-        currentScrollY.current = targetScrollY.current;
-        container.scrollTop = currentScrollY.current;
-        isScrolling = false;
       }
     };
 
@@ -58,16 +82,18 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div
-      ref={scrollContainerRef}
-      style={{
-        height: "100vh",
-        overflow: "auto",
-        willChange: "scroll-position",
-      }}
-    >
-      {children}
-    </div>
+    <SmoothScrollContext.Provider value={{ scrollTo }}>
+      <div
+        ref={scrollContainerRef}
+        style={{
+          height: "100vh",
+          overflow: "auto",
+          willChange: "scroll-position",
+        }}
+      >
+        {children}
+      </div>
+    </SmoothScrollContext.Provider>
   );
 };
 

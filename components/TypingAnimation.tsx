@@ -63,8 +63,8 @@ const TypingAnimation = ({
   }, [displayText, currentTextIndex, isDeleting, texts, typingSpeed, deletingSpeed, delayBetweenTexts, delayStart, hasStarted]);
 
   return (
-    <div className="inline-flex items-center min-h-[2rem]">
-      <motion.p className="text-xl md:text-2xl text-terminal-green">
+    <div className="inline-flex items-center min-h-[1.5rem] sm:min-h-[2rem]">
+      <motion.p className="text-terminal-green">
         {displayText}
         <motion.span
           className="inline-block h-full"

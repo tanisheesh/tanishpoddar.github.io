@@ -15,10 +15,11 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout | null = null;
+
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
         // Only control visibility on mobile
@@ -33,14 +34,12 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
           }
 
           // Hide navbar after 2 seconds of no scrolling
-          const timeout = setTimeout(() => {
+          scrollTimeout = setTimeout(() => {
             setIsScrolling(false);
             if (window.scrollY > 100) {
               setVisible(false);
             }
           }, 2000);
-
-          setScrollTimeout(timeout);
         } else {
           // Always visible on desktop
           setVisible(true);
@@ -62,7 +61,7 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
         clearTimeout(scrollTimeout);
       }
     };
-  }, [scrollTimeout]);
+  }, []);
 
   const navItems = [
     { id: "home", icon: "ri-home-line", label: "Home" },
@@ -83,7 +82,7 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
     <>
       {/* Desktop - Left Vertical Navbar */}
       <motion.nav 
-        className="hidden md:flex fixed left-6 top-1/2 z-40 bg-terminal-lightbg bg-opacity-90 backdrop-blur-sm rounded-full px-2 py-3 shadow-lg border border-gray-700 flex-col"
+        className="hidden md:flex fixed left-4 top-1/2 z-40 bg-terminal-lightbg bg-opacity-90 backdrop-blur-sm rounded-full px-2 py-3 shadow-lg border border-gray-700 flex-col"
         initial={{ x: -100, y: "-50%" }}
         animate={{ 
           x: visible ? 0 : -100,
@@ -98,12 +97,12 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
                 onClick={() => scrollToSection(item.id)}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
-                className={`flex items-center justify-center w-12 h-12 rounded-full hover:bg-terminal-bg transition-colors ${
+                className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-terminal-bg transition-colors ${
                   activeSection === item.id ? "text-terminal-green" : ""
                 }`}
                 aria-label={`Navigate to ${item.label} section`}
               >
-                <i className={`${item.icon} text-xl`}></i>
+                <i className={`${item.icon} text-lg`}></i>
               </button>
               
               {/* Tooltip - Right side */}
@@ -132,7 +131,7 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
 
       {/* Mobile - Top Horizontal Navbar */}
       <motion.nav 
-        className="md:hidden fixed top-6 left-1/2 z-40 bg-terminal-lightbg bg-opacity-90 backdrop-blur-sm rounded-full px-1 py-1 shadow-lg border border-gray-700"
+        className="md:hidden fixed top-4 left-1/2 z-40 bg-terminal-lightbg bg-opacity-90 backdrop-blur-sm rounded-full px-1 py-1 shadow-lg border border-gray-700 max-w-[95vw]"
         initial={{ y: -100, x: "-50%" }}
         animate={{ 
           y: visible ? 0 : -100,
@@ -147,12 +146,12 @@ const NavigationBar = ({ sections }: NavigationBarProps) => {
                 onClick={() => scrollToSection(item.id)}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
-                className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-terminal-bg transition-colors ${
+                className={`flex items-center justify-center w-9 h-9 rounded-full hover:bg-terminal-bg transition-colors ${
                   activeSection === item.id ? "text-terminal-green" : ""
                 }`}
                 aria-label={`Navigate to ${item.label} section`}
               >
-                <i className={`${item.icon} text-lg`}></i>
+                <i className={`${item.icon} text-base`}></i>
               </button>
               
               {/* Tooltip - Bottom */}

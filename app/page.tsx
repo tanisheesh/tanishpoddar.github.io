@@ -12,9 +12,11 @@ import ContactSection from "@/components/sections/ContactSection";
 import TerminalWindow from "@/components/TerminalWindow";
 import TypingAnimation from "@/components/TypingAnimation";
 import { useToast } from "@/hooks/use-toast";
+import { useSmoothScroll } from "@/components/SmoothScroll";
 
 export default function Home() {
   const { toast } = useToast();
+  const { scrollTo } = useSmoothScroll();
   
   const sectionRefs = {
     home: useRef<HTMLElement>(null),
@@ -27,29 +29,9 @@ export default function Home() {
     contact: useRef<HTMLElement>(null),
   };
 
-  // Custom smooth scroll function
+  // Smooth scroll to top using the context
   const smoothScrollToTop = () => {
-    const duration = 1000; // 1 second
-    const start = window.pageYOffset;
-    const startTime = performance.now();
-
-    const scroll = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function (ease-in-out)
-      const easeInOutCubic = progress < 0.5
-        ? 4 * progress * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-      
-      window.scrollTo(0, start * (1 - easeInOutCubic));
-      
-      if (progress < 1) {
-        requestAnimationFrame(scroll);
-      }
-    };
-
-    requestAnimationFrame(scroll);
+    scrollTo(0);
   };
 
   return (
@@ -62,10 +44,10 @@ export default function Home() {
             <span className="text-terminal-command">whoami</span>
           </div>
           <div className="mb-10 ml-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-2 text-terminal-accent">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 text-terminal-accent">
               Tanish Poddar
             </h1>
-            <div className="mt-2">
+            <div className="mt-2 text-base sm:text-lg md:text-xl">
               <TypingAnimation 
                 texts={[
                   "Full Stack Software Engineer",
@@ -83,7 +65,7 @@ export default function Home() {
             <span className="text-terminal-green">$</span>{" "}
             <span className="text-terminal-command">socials</span> --list
           </div>
-          <div className="flex flex-wrap ml-4 mb-8 gap-3 sm:gap-4">
+          <div className="flex flex-nowrap ml-4 mb-8 gap-2 sm:gap-4">
             <button
               onClick={() => {
                 navigator.clipboard.writeText('tanishpoddar.18@gmail.com');
@@ -94,8 +76,8 @@ export default function Home() {
               }}
               className="flex items-center text-terminal-accent hover:text-terminal-green transition-colors"
             >
-              <i className="ri-mail-line mr-2 text-xl"></i>
-              <span className="text-sm sm:text-base">Email</span>
+              <i className="ri-mail-line mr-1 sm:mr-2 text-lg sm:text-xl"></i>
+              <span className="text-xs sm:text-sm md:text-base">Email</span>
             </button>
             <a
               href="https://www.linkedin.com/in/tanisheesh/"
@@ -103,8 +85,8 @@ export default function Home() {
               rel="noreferrer"
               className="flex items-center text-terminal-accent hover:text-terminal-green transition-colors"
             >
-              <i className="ri-linkedin-box-line mr-2 text-xl"></i>
-              <span className="text-sm sm:text-base">LinkedIn</span>
+              <i className="ri-linkedin-box-line mr-1 sm:mr-2 text-lg sm:text-xl"></i>
+              <span className="text-xs sm:text-sm md:text-base">LinkedIn</span>
             </a>
             <a
               href="https://github.com/tanisheesh"
@@ -112,8 +94,8 @@ export default function Home() {
               rel="noreferrer"
               className="flex items-center text-terminal-accent hover:text-terminal-green transition-colors"
             >
-              <i className="ri-github-line mr-2 text-xl"></i>
-              <span className="text-sm sm:text-base">GitHub</span>
+              <i className="ri-github-line mr-1 sm:mr-2 text-lg sm:text-xl"></i>
+              <span className="text-xs sm:text-sm md:text-base">GitHub</span>
             </a>
           </div>
           <div className="mt-6">
